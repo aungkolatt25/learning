@@ -6,7 +6,7 @@
             id="voccard">
 
             <div class="flex flex-col grow absolute w-full h-full bg-white p-2">
-                <div class="flex z-10 p-2">
+                <div class="flex z-10">
                     <span class="underline hover:no-underline cursor-pointer"
                         onclick="document.getElementById('voccard').style.transform='rotateY(180deg)'">မသိဘူး</span>
                     <a href="{{ route('admin.vocabulary.process', [
@@ -22,7 +22,7 @@
             </div>
             <div
                 class="flex flex-col grow [backface-visibility:hidden] absolute w-full h-full bg-white p-2 [transform:rotateY(180deg)] z-20">
-                <div class="flex z-10 p-2">
+                <div class="flex z-10">
                     <a href="{{ route('admin.vocabulary.process', [
                         'language' => $language->id,
                         'vocabulary' => $vocabulary->id,
