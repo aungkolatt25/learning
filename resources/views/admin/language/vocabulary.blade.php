@@ -75,4 +75,6 @@
     </tbody>
 </table>
 </form>
-{{$vocabularies->links()}}
+<div class="py-1">
+    {{$vocabularies->onEachSide(3)->links()}}
+</div>
