@@ -43,18 +43,38 @@ class LanguageController extends Controller
         $language = Language::find($id);
         $patterns = null;
         $vocabularies = null;
+        $previous = array_merge(session('known', []), session('unknown', []));
         if (request()->type == 'pattern') {
             $patterns = $language->Patterns()->paginate();
         } else {
             $vocabularies = $language->Vocabularies()->paginate();
         }
-
+        $total = $language->Vocabularies()->count();
+        $count = count($previous);
         $levels = Vocabulary::groupBy('level')->select('level')->pluck('level');
         $types = Vocabulary::groupBy('type')->select('type')->pluck('type');
         $allowesdisplay = ["list"=>"","card"=>"-card"];
         $display = $allowesdisplay[request('display', 'list')]??"";
-        $vocabulary = $language->Vocabularies()->inRandomOrder()->first();
-        return view('admin.language.show', compact('language', 'vocabularies', 'patterns', 'levels', 'types', 'display', 'vocabulary'));
+        $vocabulary = $language->Vocabularies()
+        ->whereNotIn('id', $previous)
+        ->inRandomOrder()->first();
+        return view('admin.language.show', compact(
+            'language', 'vocabularies', 'patterns', 
+            'levels', 'types', 'display', 'vocabulary',
+            'total',
+            'count'
+        ));
+    }
+
+    public function process($language, $vocabulary){
+        $currenttype = request('known', '0')?'known':'unknown';
+        $process = session($currenttype);
+        $process[] = $vocabulary;
+        session()->put($currenttype, $process);
+        return redirect()->route('admin.language.show',[
+            'language' => $language,
+            'display' => request('display', ''),
+        ]);
     }
 
     /**

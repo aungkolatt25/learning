@@ -6,7 +6,7 @@
                 <thead>
                     <tr>
                         <th class="border-2 px-2">
-                            Language <a href="{{ route('admin.language.create') }}" class="bg-primary px-2 py-1">Add</a>
+                            Language
                         </th>
                     </tr>
                 </thead>
